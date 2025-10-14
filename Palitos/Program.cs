@@ -209,7 +209,7 @@ do
     {
         Console.Clear();
         Console.WriteLine("El juego consiste en tachar palitos (de 1 a 4) por turnos teniendo 21 palitos en total al inicio de la partida.\n" +
-            "El jugador o máquina que tache el último palito, pierde.\n\n Pulsa cualquier tecla para volver al menú principal... jeje");
+            "El jugador o máquina que tache el último palito, pierde.\n\n Pulsa cualquier tecla para volver al menú principal...");
         Console.ReadKey();
     }
 }
