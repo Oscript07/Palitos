@@ -1,6 +1,6 @@
 ﻿using System;
 String simboloPalo = "|";
-String modo;
+ConsoleKeyInfo modo;
 // Aqui pongo los menus para quitarmelo ya de encima.
 String menuArt =
 "    /$$       /$$$$$$$           /$$ /$$   /$$                               /$$   \n" +
@@ -43,11 +43,11 @@ do
     // Menú Principal
     Console.Clear(); // Estos son para que quede mas limpia la interfaz
     Console.WriteLine(menuArt);
-    modo = Console.ReadLine();
+    modo = Console.ReadKey();
 
-    if (modo == "1")
+    if (modo.Key == ConsoleKey.D1 || modo.Key == ConsoleKey.NumPad1)
     {
-        String subModo;
+        ConsoleKeyInfo subModo;
         do
         {
             Console.Clear();
@@ -57,9 +57,9 @@ do
             Console.WriteLine("3. Jugar contra otro jugador");
             Console.WriteLine("4. Cambiar ficha");
             Console.WriteLine("5. Volver al menú principal");
-            subModo = Console.ReadLine();
+            subModo = Console.ReadKey();
 
-            if (subModo == "1")
+            if (subModo.Key == ConsoleKey.D1 || subModo.Key == ConsoleKey.NumPad1)
             {
                 bool reiniciarPartida;
 
@@ -72,7 +72,7 @@ do
                     int palosRestantes = 21;
                     String eleccion;
                     bool turnoJugador = true; // Alterna entre jugador e IA
-
+                    int palitosAQuitar = 0;
                     Console.Clear();
                     Console.WriteLine("¡Buena suerte porque la vas a necesitar!\n\nPor listo vas a empezar primero.\n\n Pulsa cualquier tecla para continuar.");
                     Console.ReadKey();
@@ -89,7 +89,7 @@ do
                             }
                             Console.Write("\nElige cuántos palos quieres tachar (1 a 4): \n\n\n\nSi desea salir al menú de juego, introduzca 'X'");
 
-                            int palitosAQuitar = 0;
+                            
                             bool entradaValida = false;
 
                             while (entradaValida == false) //Comprueba que no ponga de eleccion algo que no sea 1,2,3 o 4.
@@ -134,7 +134,7 @@ do
                         }
                         else
                         {
-                            int palosIA = 5 - (21 - palosRestantes) % 5; // IA --> explicación rápida porque sé que no me voy a acordar:
+                            int palosIA = 5 - palitosAQuitar; // IA --> explicación rápida porque sé que no me voy a acordar:
                                                                          // 21 - palosRestantes = palos quitados desde el inicio
                                                                          // % 5 = cuánto se ha ido del múltiplo de 5
                                                                          // 5 - resto = cantidad que la IA debe quitar
@@ -162,35 +162,35 @@ do
                 Console.ReadKey();
 
             }
-            else if (subModo == "2")
+            else if (subModo.Key == ConsoleKey.D2 || subModo.Key == ConsoleKey.NumPad2)
             {
                 // Modo Aleatorio
                 Console.WriteLine("Aun no hay jaja.");
                 Console.WriteLine("Pulsa cualquier tecla para volver al menú del juego...");
                 Console.ReadKey();
             }
-            else if (subModo == "3")
+            else if (subModo.Key == ConsoleKey.D3 || subModo.Key == ConsoleKey.NumPad3)
             {
                 // Jugar contra otra persona
                 Console.WriteLine("Aun no hay jaja.");
                 Console.WriteLine("Pulsa cualquier tecla para volver al menú del juego...");
                 Console.ReadKey();
             }
-            else if (subModo == "4")
+            else if (subModo.Key == ConsoleKey.D4 || subModo.Key == ConsoleKey.NumPad4)
             {
                 // Cambiar ficha
                 Console.Clear();
                 Console.WriteLine("Elige que simbolo prefieres para tu ficha, actualmente es este << " + simboloPalo+ " >>");
                 Console.WriteLine("\n\n\n 1. |         2. @         3. ! \n\n Introduzca cualquier otra opción para cancelar el cambio.");
 
-                String decisionFicha = Console.ReadLine();
-                if (decisionFicha == "1")
+                ConsoleKeyInfo decisionFicha = Console.ReadKey();
+                if (decisionFicha.Key == ConsoleKey.D1 || decisionFicha.Key == ConsoleKey.NumPad1)
                 {
                     simboloPalo = "|";
-                } else if (decisionFicha == "2")
+                } else if (decisionFicha.Key == ConsoleKey.D2 || decisionFicha.Key == ConsoleKey.NumPad2)
                 {
                     simboloPalo = "@";
-                }else if (decisionFicha == "3")
+                } else if (decisionFicha.Key == ConsoleKey.D3 || decisionFicha.Key == ConsoleKey.NumPad3)
                 {
                     simboloPalo = "!";
                 }
@@ -198,14 +198,14 @@ do
 
 
 
-                    Console.WriteLine("Pulsa cualquier tecla para volver al menú del juego...");
-                Console.ReadKey();
+                    Console.WriteLine("\nSelección guardada correctamente >> "+simboloPalo+" << Pulsa cualquier tecla para volver al menú del juego...");
+                Console.ReadKey(true); //el true es para que no se muestre0
             }
 
         }
-        while (subModo != "5"); // Si subModo == "5", vuelve al menú principal, si no, pues se sigue ejecutando todo lo de arriba ^^
+        while (subModo.Key != ConsoleKey.D5 || subModo.Key == ConsoleKey.NumPad5); // Si subModo no es la tecla 5, vuelve al menú principal, si no, pues se sigue ejecutando todo lo de arriba ^^
     }
-    else if (modo == "2") // Te explica como jugar
+    else if (modo.Key == ConsoleKey.D2 || modo.Key == ConsoleKey.NumPad2) // Te explica como jugar
     {
         Console.Clear();
         Console.WriteLine("El juego consiste en tachar palitos (de 1 a 4) por turnos teniendo 21 palitos en total al inicio de la partida.\n" +
@@ -213,5 +213,5 @@ do
         Console.ReadKey();
     }
 }
-while (modo != "3"); // Para que si eliges el 3 el juego termine.
+while (modo.Key != ConsoleKey.D3 || modo.Key != ConsoleKey.NumPad3); // Para que si eliges el 3 el juego termine.
 Environment.Exit(0);
