@@ -68,6 +68,7 @@ do
                     reiniciarPartida = false; //Para que no se haga un bucle infinito por poner que siempre reiniciar la partida sea true
 
                     // Modo Imposible
+                    ConsoleKeyInfo eleccionReinicio;
                     bool activo = true;
                     int palosRestantes = 21;
                     String eleccion;
@@ -82,14 +83,14 @@ do
                         {
                             Console.Clear();
                             Console.WriteLine("\nEs tu turno.\n\nQuedan " + palosRestantes + " palitos.");
-                            
+
                             for (int i = 0; i < palosRestantes; i++)
                             {
                                 Console.Write(simboloPalo + " "); // Para mostrar los palos graficamente
                             }
-                            Console.Write("\nElige cuántos palos quieres tachar (1 a 4): \n\n\n\nSi desea salir al menú de juego, introduzca 'X'");
+                            Console.Write("\nElige cuántos palos quieres tachar (1 a 4): \n\n\n\nSi desea salir al menú de juego, introduzca 'X'\n");
 
-                            
+
                             bool entradaValida = false;
 
                             while (entradaValida == false) //Comprueba que no ponga de eleccion algo que no sea 1,2,3 o 4.
@@ -117,9 +118,9 @@ do
                             {
                                 Console.WriteLine("\nHas tachado el último palo. Has perdido.");
 
-                                Console.WriteLine("\nPulsa R y luego Enter para reiniciar la partida contra la IA, o cualquier otra tecla para volver al menú.");
-                                string eleccionReinicio = Console.ReadLine();
-                                if (eleccionReinicio.ToUpper() == "R") // El .ToUpper sirve para que si lo pones en minusculas tambien cuente como una R mayuscula
+                                Console.WriteLine("\nPulsa R para reiniciar la partida contra la IA, o cualquier otra tecla para volver al menú.");
+                                eleccionReinicio = Console.ReadKey();
+                                if (eleccionReinicio.Key == ConsoleKey.R)
                                 {
                                     reiniciarPartida = true;
                                 }
@@ -134,12 +135,7 @@ do
                         }
                         else
                         {
-                            int palosIA = 5 - palitosAQuitar; // IA --> explicación rápida porque sé que no me voy a acordar:
-                                                                         // 21 - palosRestantes = palos quitados desde el inicio
-                                                                         // % 5 = cuánto se ha ido del múltiplo de 5
-                                                                         // 5 - resto = cantidad que la IA debe quitar
-                                                                         // Por ejemplo, si el resto es 4, se han quitado 4 palos más del múltiplo de 5,
-                                                                         // así que falta 1 por quitar
+                            int palosIA = 5 - palitosAQuitar;
 
                             Console.Clear();
 
@@ -158,29 +154,264 @@ do
                 } while (reiniciarPartida == true);
 
 
-                Console.WriteLine("\nPulsa cualquier tecla para volver al menú del juego...");
-                Console.ReadKey();
 
             }
             else if (subModo.Key == ConsoleKey.D2 || subModo.Key == ConsoleKey.NumPad2)
             {
                 // Modo Aleatorio
-                Console.WriteLine("Aun no hay jaja.");
-                Console.WriteLine("Pulsa cualquier tecla para volver al menú del juego...");
-                Console.ReadKey();
+                bool reiniciarPartida;
+
+                do
+                {
+                    reiniciarPartida = false; //Para que no se haga un bucle infinito por poner que siempre reiniciar la partida sea true
+
+                    // Modo Posible
+                    Random rng = new Random(); // Defino el random para usarlo luego y que la IA escoja entre 1 y 4
+                    ConsoleKeyInfo eleccionReinicio;
+                    bool activo = true;
+                    int palosRestantes = 21;
+                    String eleccion;
+                    bool turnoJugador = true; // Alterna entre jugador e IA
+                    int palitosAQuitar = 0;
+                    Console.Clear();
+                    Console.WriteLine("¡Buena suerte!\n\nPor listo vas a empezar primero.\n\n Pulsa cualquier tecla para continuar.");
+                    Console.ReadKey();
+                    while (activo == true) // Para que cuando sea false termine el modo de juego
+                    {
+                        if (turnoJugador == true)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\nEs tu turno.\n\nQuedan " + palosRestantes + " palitos.");
+
+                            for (int i = 0; i < palosRestantes; i++)
+                            {
+                                Console.Write(simboloPalo + " "); // Para mostrar los palos graficamente
+                            }
+                            Console.Write("\nElige cuántos palos quieres tachar (1 a 4): \n\n\n\nSi desea salir al menú de juego, introduzca 'X'");
+
+
+                            bool entradaValida = false;
+
+                            while (entradaValida == false) //Comprueba que no ponga de eleccion algo que no sea 1,2,3 o 4.
+                            {
+                                eleccion = Console.ReadLine();
+                                if (eleccion.ToUpper() == "X") // Por si lo ponen en minusculas o mayusculas que cualquiera sirva para salir.
+                                {
+                                    activo = false;
+                                    entradaValida = true;
+                                }
+                                else if (eleccion == "1" || eleccion == "2" || eleccion == "3" || eleccion == "4")
+                                {
+                                    palitosAQuitar = Convert.ToInt32(eleccion);
+                                    entradaValida = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Número inválido. Introduce un número del 1 al 4:");
+                                }
+                            }
+
+                            palosRestantes -= palitosAQuitar;
+
+                            if (palosRestantes <= 0) //Aqui es donde compruebo que quites el último palo.
+                            {
+                                Console.WriteLine("\nHas tachado el último palo. Has perdido.");
+
+                                Console.WriteLine("\nPulsa R para reiniciar la partida contra la IA, o cualquier otra tecla para volver al menú.");
+                                eleccionReinicio = Console.ReadKey();
+                                if (eleccionReinicio.Key == ConsoleKey.R)
+                                {
+                                    reiniciarPartida = true;
+                                }
+
+                                activo = false; // Termina el modo de juego (Yippeee)
+
+                            }
+                            else
+                            {
+                                turnoJugador = false; // Pasa el turno a la IA
+                            }
+                        }
+                        else
+                        {
+                            int palosIA = rng.Next(1, Math.Min(4, palosRestantes)); // Con esto hago que me de un numero random entre 1 y el menor de las siguientes 2 opciones:
+                                                                                    //4 o los palos que quedan, evitando asi que elija un numero mayor a la cantidad de palos que quedan.
+
+                            Console.Clear();
+
+                            Console.WriteLine("\nTurno de la IA\n\nLa IA tacha " + palosIA + " palos.\n");
+                            palosRestantes -= palosIA;
+
+                            if (palosRestantes <= 0) //Aqui es donde compruebo que quite la IA el ultimo palo
+                            {
+                                Console.WriteLine("\nLa IA tacha el ultimo palo. ¡Felicidades, has ganado!");
+
+                                Console.WriteLine("\nPulsa R para reiniciar la partida contra la IA, o cualquier otra tecla para volver al menú.");
+                                eleccionReinicio = Console.ReadKey();
+                                if (eleccionReinicio.Key == ConsoleKey.R)
+                                {
+                                    reiniciarPartida = true;
+                                }
+
+                                activo = false; // Termina el modo de juego (Yippeee)
+
+                            }
+                            Console.WriteLine("Quedan " + palosRestantes + " palos.\n\nPulsa cualquier botón para continuar.");
+                            for (int i = 0; i < palosRestantes; i++)
+                            {
+                                Console.Write(simboloPalo + " ");
+                            }
+                            Console.ReadKey();
+
+                            turnoJugador = true; // Pasa el turno al jugador
+
+
+                        }
+
+                    }
+                } while (reiniciarPartida == true);
+
             }
             else if (subModo.Key == ConsoleKey.D3 || subModo.Key == ConsoleKey.NumPad3)
             {
                 // Jugar contra otra persona
-                Console.WriteLine("Aun no hay jaja.");
-                Console.WriteLine("Pulsa cualquier tecla para volver al menú del juego...");
-                Console.ReadKey();
+                bool reiniciarPartida;
+
+                do
+                {
+                    reiniciarPartida = false; //Para que no se haga un bucle infinito por poner que siempre reiniciar la partida sea true
+
+                    // Modo Posible
+                    Random rng = new Random(); // Defino el random para usarlo luego y que la IA escoja entre 1 y 4
+                    ConsoleKeyInfo eleccionReinicio;
+                    bool activo = true;
+                    int palosRestantes = 21;
+                    String eleccion;
+                    bool turnoJugador = true;
+                    int palitosAQuitar = 0;
+                    Console.Clear();
+
+                    while (activo == true) // Para que cuando sea false termine el modo de juego
+                    {
+                        if (turnoJugador == true)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\nEs el turno del jugador 1.\n\nQuedan " + palosRestantes + " palitos.");
+
+                            for (int i = 0; i < palosRestantes; i++)
+                            {
+                                Console.Write(simboloPalo + " "); // Para mostrar los palos graficamente
+                            }
+                            Console.Write("\nElige cuántos palos quieres tachar (1 a 4): \n\n\n\nSi desea salir al menú de juego, introduzca 'X'");
+
+
+                            bool entradaValida = false;
+
+                            while (entradaValida == false) //Comprueba que no ponga de eleccion algo que no sea 1,2,3 o 4.
+                            {
+                                eleccion = Console.ReadLine();
+                                if (eleccion.ToUpper() == "X") // Por si lo ponen en minusculas o mayusculas que cualquiera sirva para salir.
+                                {
+                                    activo = false;
+                                    entradaValida = true;
+                                }
+                                else if (eleccion == "1" || eleccion == "2" || eleccion == "3" || eleccion == "4")
+                                {
+                                    palitosAQuitar = Convert.ToInt32(eleccion);
+                                    entradaValida = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Número inválido. Introduce un número del 1 al 4:");
+                                }
+                            }
+
+                            palosRestantes -= palitosAQuitar;
+
+                            if (palosRestantes <= 0) //Aqui es donde compruebo que quites el último palo.
+                            {
+                                Console.WriteLine("\nEl jugador 1 tacha el último palo, ¡por lo que gana el jugador 2!");
+
+                                Console.WriteLine("\nPulsa R para reiniciar la partida competitiva, o cualquier otra tecla para volver al menú.");
+                                eleccionReinicio = Console.ReadKey();
+                                if (eleccionReinicio.Key == ConsoleKey.R)
+                                {
+                                    reiniciarPartida = true;
+                                }
+
+                                activo = false; // Termina el modo de juego (Yippeee)
+
+                            }
+                            else
+                            {
+                                turnoJugador = false; // Pasa el turno al jugador 2
+                            }
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("\nEs el turno del jugador 2.\n\nQuedan " + palosRestantes + " palitos.");
+
+                            for (int i = 0; i < palosRestantes; i++)
+                            {
+                                Console.Write(simboloPalo + " "); // Para mostrar los palos graficamente
+                            }
+                            Console.Write("\nElige cuántos palos quieres tachar (1 a 4): \n\n\n\nSi desea salir al menú de juego, introduzca 'X'");
+
+
+                            bool entradaValida = false;
+
+                            while (entradaValida == false) //Comprueba que no ponga de eleccion algo que no sea 1,2,3 o 4.
+                            {
+                                eleccion = Console.ReadLine();
+                                if (eleccion.ToUpper() == "X") // Por si lo ponen en minusculas o mayusculas que cualquiera sirva para salir.
+                                {
+                                    activo = false;
+                                    entradaValida = true;
+                                }
+                                else if (eleccion == "1" || eleccion == "2" || eleccion == "3" || eleccion == "4")
+                                {
+                                    palitosAQuitar = Convert.ToInt32(eleccion);
+                                    entradaValida = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Número inválido. Introduce un número del 1 al 4:");
+                                }
+                            }
+
+                            palosRestantes -= palitosAQuitar;
+
+                            if (palosRestantes <= 0) //Aqui es donde compruebo que quites el último palo.
+                            {
+                                Console.WriteLine("\nEl jugador 2 tacha el último palo, ¡por lo que gana el jugador 1!");
+
+                                Console.WriteLine("\nPulsa R para reiniciar la partida competitiva, o cualquier otra tecla para volver al menú.");
+                                eleccionReinicio = Console.ReadKey();
+                                if (eleccionReinicio.Key == ConsoleKey.R)
+                                {
+                                    reiniciarPartida = true;
+                                }
+
+                                activo = false; // Termina el modo de juego (Yippeee)
+
+                            }
+                            else
+                            {
+                                turnoJugador = true; // Pasa el turno al jugador 1
+                            }
+
+                        }
+                    }
+                } while (reiniciarPartida == true) ;
+                
             }
+            
             else if (subModo.Key == ConsoleKey.D4 || subModo.Key == ConsoleKey.NumPad4)
             {
                 // Cambiar ficha
                 Console.Clear();
-                Console.WriteLine("Elige que simbolo prefieres para tu ficha, actualmente es este << " + simboloPalo+ " >>");
+                Console.WriteLine("Elige que simbolo prefieres para tu ficha, actualmente es este << " + simboloPalo + " >>");
                 Console.WriteLine("\n\n\n 1. |         2. @         3. ! \n\n Introduzca cualquier otra opción para cancelar el cambio.");
 
                 ConsoleKeyInfo decisionFicha = Console.ReadKey();
@@ -198,7 +429,7 @@ do
 
 
 
-                    Console.WriteLine("\nSelección guardada correctamente >> "+simboloPalo+" << Pulsa cualquier tecla para volver al menú del juego...");
+                Console.WriteLine("\nSelección guardada correctamente >> " + simboloPalo + " << Pulsa cualquier tecla para volver al menú del juego...");
                 Console.ReadKey(true); //el true es para que no se muestre0
             }
 
