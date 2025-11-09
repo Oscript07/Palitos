@@ -434,7 +434,7 @@ do
             }
 
         }
-        while (subModo.Key != ConsoleKey.D5 || subModo.Key == ConsoleKey.NumPad5); // Si subModo no es la tecla 5, vuelve al menú principal, si no, pues se sigue ejecutando todo lo de arriba ^^
+        while (subModo.Key != ConsoleKey.D5 && subModo.Key == ConsoleKey.NumPad5); // Si subModo no es la tecla 5, vuelve al menú principal, si no, pues se sigue ejecutando todo lo de arriba ^^
     }
     else if (modo.Key == ConsoleKey.D2 || modo.Key == ConsoleKey.NumPad2) // Te explica como jugar
     {
@@ -444,5 +444,5 @@ do
         Console.ReadKey();
     }
 }
-while (modo.Key != ConsoleKey.D3 || modo.Key != ConsoleKey.NumPad3); // Para que si eliges el 3 el juego termine.
+while (modo.Key != ConsoleKey.D3 && modo.Key != ConsoleKey.NumPad3); // Para que si eliges el 3 el juego termine.
 Environment.Exit(0);
