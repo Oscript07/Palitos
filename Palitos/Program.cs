@@ -234,8 +234,8 @@ do
                         }
                         else
                         {
-                            int palosIA = rng.Next(1, Math.Min(4, palosRestantes)); // Con esto hago que me de un numero random entre 1 y el menor de las siguientes 2 opciones:
-                                                                                    //4 o los palos que quedan, evitando asi que elija un numero mayor a la cantidad de palos que quedan.
+                            int palosIA = rng.Next(1, Math.Min(4, palosRestantes) + 1); // Con esto hago que me de un numero random entre 1 y el menor de las siguientes 2 opciones:
+                                                                                    //4 o los palos que quedan, y evitando asi que elija un numero mayor a la cantidad de palos que quedan.
 
                             Console.Clear();
 
@@ -430,7 +430,7 @@ do
 
 
                 Console.WriteLine("\nSelección guardada correctamente >> " + simboloPalo + " << Pulsa cualquier tecla para volver al menú del juego...");
-                Console.ReadKey(true); //el true es para que no se muestre0
+                Console.ReadKey(true); //el true es para que no se muestre
             }
 
         }
